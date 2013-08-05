@@ -19,7 +19,7 @@
             display: none;
         }        
         .submenu li{
-            list-style-type: none;
+            /*list-style-type: none;*/
             color: #FFF;                     
         }
         .submenu a{
@@ -29,8 +29,8 @@
             text-decoration: none;            
         }
         .submenu a:hover{  
-            display: block;
-            padding-left: 20px; 
+          /*  display: block;
+            padding-left: 20px;*/ 
             color: #FFF;
             background-color: #0000FF;   
             cursor: pointer;
@@ -38,7 +38,7 @@
     </style>    
     <script src="js/jquery.js" type="text/javascript"></script>
     <script>
-        $(document).ready(function(){ 
+        $(window).load(function(){ 
             $('span.category').click(function(){
                   $(this).next('ul').slideToggle(300);
               });
