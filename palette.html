@@ -77,11 +77,28 @@
                         $("#color").html("");  
                     }        
                 );
-                $('.palette').click(function(){                    
+                  
+                $("div").hover(function(){                    
                         $("#field").css({'background-color':$(this).css('background-color')});
                             
-                });  
-            });
+                });
+                $("a").hover(function(){                    
+                        $("#field").css({'background-color':$(this).css('color')});
+                            
+                });
+                
+               /* $("body").click(function(){                    
+                        $("#field").css({'background-color':$(this).css('background-color')});
+                            
+                }); */ 
+            
+               /* $("*").click(function(event) {                    
+                  $("#log").html("clicked: " + event.target.nodeName);
+                  if (event.target.nodeName === 'BODY')
+                      $("#field").css({'background-color':$(this).css('background-color')});
+                });*/ 
+                    
+        });
             
             
         </script>
@@ -89,8 +106,9 @@
     
    
     <body>  
+        <a href="#">asfgasdfasdf</a>
         <div id="coord"></div>
-    
+         <div id="log"></div>
 
         
         
@@ -108,52 +126,90 @@
         </div>    
         
         
-        
+        <!--<canvas width="600" height="440" id="canvas_picker"></canvas>-->
         <canvas width="600" height="440" id="canvas_picker"></canvas>
-        <div id="hex">HEX: <input type="text"></input></div>
-        <div id="rgb">RGB: <input type="text"></input></div>
+        <div id="hex">HEX: <input type="text"></div>
+        <div id="rgb">RGB: <input type="text"></div>
+
+        
+        <script type="text/javascript">
+            var canvas = document.getElementById('canvas_picker').getContext('2d');
+
+            // создание изображения
+            var img = new Image();
+            img.src = 'canvas.png';
+
+            // копируем изображение в canvas
+            $(img).load(function(){
+              canvas.drawImage(img,0,0);
+            });
+
+            function rgbToHex(R,G,B) {return toHex(R)+toHex(G)+toHex(B)}
+            function toHex(n) {
+              n = parseInt(n,10);
+              if (isNaN(n)) return "00";
+              n = Math.max(0,Math.min(n,255));
+              return "0123456789ABCDEF".charAt((n-n%16)/16)  + "0123456789ABCDEF".charAt(n%16);
+            }
+            
+            
+            $('#canvas_picker').hover(function(event){
+              // получение координат
+              var x = event.pageX - this.offsetLeft;
+              var y = event.pageY - this.offsetTop;
+              // получение цвета пикселя
+              var img_data = canvas.getImageData(x, y, 1, 1).data;
+              var R = img_data[0];
+              var G = img_data[1];
+              var B = img_data[2];  var rgb = R + ',' + G + ',' + B;
+              // конвертируем из RGB в HEX
+              var hex = rgbToHex(R,G,B);
+              // показываем значения
+              $('#rgb input').val(rgb);
+              $('#hex input').val('#' + hex);
+              $("#field").css({'background-color':'#' + hex});
+            });
+        </script>
         
         
         
-        <canvas width="600" height="440" id="canvas_picker"></canvas>
-<div id="hex">HEX: <input type="text"></input></div>
-<div id="rgb">RGB: <input type="text"></input></div>
- 
-<script type="text/javascript">
-    var canvas = document.getElementById('canvas_picker').getContext('2d');
- 
-    // создание изображения
-    var img = new Image();
-    img.src = 'canvas.png';
- 
-    // копируем изображение в canvas
-    $(img).load(function(){
-      canvas.drawImage(img,0,0);
-    });
- 
-    function rgbToHex(R,G,B) {return toHex(R)+toHex(G)+toHex(B)}
-    function toHex(n) {
-      n = parseInt(n,10);
-      if (isNaN(n)) return "00";
-      n = Math.max(0,Math.min(n,255));
-      return "0123456789ABCDEF".charAt((n-n%16)/16)  + "0123456789ABCDEF".charAt(n%16);
-    }
-    $('#canvas_picker').click(function(event){
-      // получение координат
-      var x = event.pageX - this.offsetLeft;
-      var y = event.pageY - this.offsetTop;
-      // получение цвета пикселя
-      var img_data = canvas.getImageData(x, y, 1, 1).data;
-      var R = img_data[0];
-      var G = img_data[1];
-      var B = img_data[2];  var rgb = R + ',' + G + ',' + B;
-      // конвертируем из RGB в HEX
-      var hex = rgbToHex(R,G,B);
-      // показываем значения
-      $('#rgb input').val(rgb);
-      $('#hex input').val('#' + hex);
-    });
-</script>
+        
+        
+<!--        <script type="text/javascript">
+            var canvas = document.getElementById('canvas_picker').getContext('2d');
+
+            // создание изображения
+            var img = new Image();
+            img.src = 'canvas.png';
+
+            // копируем изображение в canvas
+            $(img).load(function(){
+              canvas.drawImage(img,0,0);
+            });
+
+            function rgbToHex(R,G,B) {return toHex(R)+toHex(G)+toHex(B)}
+            function toHex(n) {
+              n = parseInt(n,10);
+              if (isNaN(n)) return "00";
+              n = Math.max(0,Math.min(n,255));
+              return "0123456789ABCDEF".charAt((n-n%16)/16)  + "0123456789ABCDEF".charAt(n%16);
+            }
+            $('#canvas_picker').click(function(event){
+              // получение координат
+              var x = event.pageX - this.offsetLeft;
+              var y = event.pageY - this.offsetTop;
+              // получение цвета пикселя
+              var img_data = canvas.getImageData(x, y, 1, 1).data;
+              var R = img_data[0];
+              var G = img_data[1];
+              var B = img_data[2];  var rgb = R + ',' + G + ',' + B;
+              // конвертируем из RGB в HEX
+              var hex = rgbToHex(R,G,B);
+              // показываем значения
+              $('#rgb input').val(rgb);
+              $('#hex input').val('#' + hex);
+            });
+        </script>-->
     </body>
 </html>
 
