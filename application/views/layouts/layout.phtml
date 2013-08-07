@@ -19,17 +19,17 @@
         <?php echo $this->headLink();?>
     </head>
     <body>
-        <div class="container sh">
-            <div id="header">
+        <div class="container">
+            <div id="header" class="span-24 last">
                 <h2>Header</h2>
             </div>
-            <div id="content">
+            <div id="content" class="span-17 colborder">
                 <?php echo $this->layout()->content;?>
             </div>
-            <div id="sidebar">
+            <div id="sidebar" class="span-6 last">
                 <p>Sidebar</p>
             </div>
-            <div id="footer">
+            <div id="footer" class="span-24 last">
                <p>Footer</p> 
             </div>
         </div>    
