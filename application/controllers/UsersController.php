@@ -9,6 +9,8 @@ class UsersController extends Zend_Controller_Action{
     public function addAction(){
         $this->view->title = "Добавить нового пользователя.";
         $this->view->headTitle($this->view->title, 'PREPEND');
+        $form = new Application_Form_User;
+        $this->view->form = $form;
     }
     
     public function deleteAction(){
