@@ -9,7 +9,8 @@ class UsersController extends Zend_Controller_Action{
         $this->view->users = $user->getAllUsers();       
     }
     
-    public function addAction(){
+    public function addAction()
+    {
         $this->view->title = "Добавить нового пользователя.";
         $this->view->headTitle($this->view->title, 'PREPEND');
         $form = new Application_Form_User();
@@ -30,6 +31,27 @@ class UsersController extends Zend_Controller_Action{
         $this->view->form = $form;
     }
     
+    public function registrationAction()
+    {
+        $this->view->title = "Регистрация нового пользователя.";
+        $this->view->headTitle($this->view->title, 'PREPEND');
+        $form = new Application_Form_Registration();
+        
+        
+       if ($this->getRequest()->isPost())
+       {           
+            if($form->isValid($this->getRequest()->getPost())){
+                $user = new Application_Model_User();
+                $user->fill($form->getValues());
+                $user->created = date('Y-m-d H:i:s');
+                $user->password = sha1($user->password);
+                $user->save();
+                $this->_helper->redirector('index');
+            }
+        }
+        
+        $this->view->form = $form;
+    }
     public function deleteAction(){
         $id = $this->_getAllParams('id');
         $user = new Application_Model_User($id);
@@ -45,6 +67,7 @@ class UsersController extends Zend_Controller_Action{
         $user = new Application_Model_User($id);
         $this->view->user = $user;
     }
+    
     public function editAction(){
         $this->view->title = "Редактировать данные пользователя.";
         $this->view->headTitle($this->view->title, 'PREPEND');
