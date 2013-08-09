@@ -21,3 +21,4 @@ php_value display_startup_errors 1
 
 #add Oleg
 #APPLICATION_ENV development
+SetEnv APPLICATION_ENV development
