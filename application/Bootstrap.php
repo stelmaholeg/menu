@@ -24,7 +24,24 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $view->headTitle('Quani');
         $view->headTitle()->setSeparator(' :: ');        
     }
-            
-
+    
+    protected function _initEmail()
+    {
+        $email_confog = array(
+            // указываем метод авторизации
+            'auth' => 'login',
+            // ваша почта на gamil
+            'username' => 'stelmah.taganrog@gmail.com',
+            // ваш пароль от почты
+            'password' => '2809hfljcnysq',
+            // метод щифрования
+            'ssl' => 'ssl',
+            // порт
+            'port' => 465
+        );
+        // создаем объект SMPT transport - первый параметр: smtp сервер, воторой: наш конфиг
+        $transport = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $email_confog);
+        Zend_Mail::setDefaultTransport($transport);
+    }
 }
 

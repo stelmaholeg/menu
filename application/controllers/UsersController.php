@@ -1,7 +1,8 @@
 <?php
 class UsersController extends Zend_Controller_Action{
     
-    public function indexAction(){
+    public function indexAction()
+    {
         $this->view->title = "Список пользователей.";
         $this->view->headTitle($this->view->title, 'PREPEND');
         
@@ -9,7 +10,7 @@ class UsersController extends Zend_Controller_Action{
         $this->view->users = $user->getAllUsers();       
     }
     
-    public function addAction()
+    public function addAction() 
     {
         $this->view->title = "Добавить нового пользователя.";
         $this->view->headTitle($this->view->title, 'PREPEND');
@@ -22,13 +23,30 @@ class UsersController extends Zend_Controller_Action{
                 $user = new Application_Model_User();
                 $user->fill($form->getValues());
                 $user->created = date('Y-m-d H:i:s');
-                $user->password = sha1($user->password);
-                $user->save();
+                $user->password = sha1($user->password);                
+                $user->save();                
                 $this->_helper->redirector('index');
             }
-        }
-        
+        }        
         $this->view->form = $form;
+    }
+    
+    public function confirmAction()
+    {
+        $user_id = $this->_getParam('id');
+        $code = $this->_getParam('code');
+        $user = new Application_Model_User($user_id);
+        if ($user->activation) {
+            $this->view->message = 'Ваш аккаунт уже активирован.';
+        } else {
+            if ($user->code === $code){
+                $user->activated = true;
+                $user->save();
+                $this->view->message = 'Ваш аккаунт успешно активирован.';
+            } else {
+                $this->view->message = 'Неверные данные активации.';
+            }               
+        }           
     }
     
     public function registrationAction()
@@ -45,21 +63,26 @@ class UsersController extends Zend_Controller_Action{
                 $user->fill($form->getValues());
                 $user->created = date('Y-m-d H:i:s');
                 $user->password = sha1($user->password);
+                $user->code = uniqid();
                 $user->save();
+                $user->sendActivationEmail();
                 $this->_helper->redirector('index');
             }
         }
         
         $this->view->form = $form;
     }
-    public function deleteAction(){
+    
+    public function deleteAction()
+    {
         $id = $this->_getAllParams('id');
         $user = new Application_Model_User($id);
         $user->delete();
         $this->_helper->redirector('index');
     }
     
-    public function viewAction(){
+    public function viewAction()
+    {
         $this->view->title = "Просмотр данных пользователя.";
         $this->view->headTitle($this->view->title, 'PREPEND');
         
@@ -68,7 +91,8 @@ class UsersController extends Zend_Controller_Action{
         $this->view->user = $user;
     }
     
-    public function editAction(){
+    public function editAction()
+    {
         $this->view->title = "Редактировать данные пользователя.";
         $this->view->headTitle($this->view->title, 'PREPEND');
         

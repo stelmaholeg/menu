@@ -2,9 +2,12 @@
     <table>
         <tr>
             <th>ID</th>
-            <th>Username</th>
+            <th>Логин</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
             <th>Email</th>
-            <th>Actions</th>
+            <th>Активирован</th>
+            <th>Операция</th>
         </tr>
     <?php foreach ($this->users as $user) : ?>
         <tr>
@@ -15,7 +18,21 @@
                     'id' => $user->id
                 )); ?>"> <?php echo $user->username; ?></a>
                </td>
+            <td><a href="<?php echo $this->url(array(
+                    'controller' => 'users',
+                    'action' => 'view',
+                    'id' => $user->id
+                )); ?>"> <?php echo $user->name; ?></a>
+            </td>   
+            <td><a href="<?php echo $this->url(array(
+                    'controller' => 'users',
+                    'action' => 'view',
+                    'id' => $user->id
+                )); ?>"> <?php echo $user->surname; ?></a>
+            </td>   
             <td><?php echo $user->email; ?></td>
+            <td><?php  echo ($user->activated) ?  "да" :  "нет";  ?></td>
+            
             <td>
                 <a href="<?php echo $this->url(array(
                     'controller' => 'users',

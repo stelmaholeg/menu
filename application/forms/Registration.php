@@ -9,7 +9,7 @@ class Application_Form_Registration extends Zend_Form
         parent::__construct();
         
         $username   = new Zend_Form_Element_Text('username');
-        $username->setLabel('Имя пользователя')
+        $username->setLabel('Логин')
                 ->setRequired(true)
                 ->addValidator('NotEmpty')
                 ->addValidator('Alnum')
@@ -19,6 +19,15 @@ class Application_Form_Registration extends Zend_Form
                 ))
                 ->addFilter('StringTrim')
                 ->addFilter('StripTags');
+        
+        $name   = new Zend_Form_Element_Text('name');
+        $name->setLabel('Имя')
+                ->setRequired(true);
+        
+        $surname   = new Zend_Form_Element_Text('surname');
+        $surname->setLabel('Фамилия')
+                ->setRequired(true);
+        
         
         $password   = new Zend_Form_Element_Password('password');
         $password->setLabel('Пароль')
@@ -38,7 +47,7 @@ class Application_Form_Registration extends Zend_Form
         $submit     = new Zend_Form_Element_Submit('submit');   
         $submit->setLabel('Добавить');               
                 
-        $this->addElements(array($username, $password, $password_confirm, $email, $submit));        
+        $this->addElements(array($username, $name, $surname, $password, $password_confirm, $email, $submit));        
     }
 
 

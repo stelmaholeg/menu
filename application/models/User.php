@@ -15,7 +15,14 @@ class Application_Model_User extends Quani_Model
     {
         return $this->_row->toArray();
     }
-
     
+    public function sendActivationEmail()
+    {
+        $mail = new Quani_Mail();
+        $mail->addTo($this->_row->email);
+        $mail->setSubject('Активация аккаунта');
+        $mail->setBodyView('activation',array('user' => $this));
+        $mail->send();
+    }
 }
 
